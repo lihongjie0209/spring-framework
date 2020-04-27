@@ -406,7 +406,7 @@ class ConstructorResolver {
 				throw new BeanDefinitionStoreException(mbd.getResourceDescription(), beanName,
 						"factory-bean reference points back to the same bean definition");
 			}
-			factoryBean = this.beanFactory.getBean(factoryBeanName);
+			factoryBean = this.beanFactory.getBean(factoryBeanName); // 工厂bean
 			if (mbd.isSingleton() && this.beanFactory.containsSingleton(beanName)) {
 				throw new ImplicitlyAppearedSingletonException();
 			}
@@ -467,13 +467,13 @@ class ConstructorResolver {
 				Method[] rawCandidates = getCandidateMethods(factoryClass, mbd);
 				for (Method candidate : rawCandidates) {
 					if (Modifier.isStatic(candidate.getModifiers()) == isStatic && mbd.isFactoryMethod(candidate)) {
-						candidates.add(candidate);
+						candidates.add(candidate); // 可用的工厂函数
 					}
 				}
 			}
 
 			if (candidates.size() == 1 && explicitArgs == null && !mbd.hasConstructorArgumentValues()) {
-				Method uniqueCandidate = candidates.get(0);
+				Method uniqueCandidate = candidates.get(0); // 唯一
 				if (uniqueCandidate.getParameterCount() == 0) {
 					mbd.factoryMethodToIntrospect = uniqueCandidate;
 					synchronized (mbd.constructorArgumentLock) {
