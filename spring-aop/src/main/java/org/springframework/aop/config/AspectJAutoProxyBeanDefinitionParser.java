@@ -41,6 +41,7 @@ class AspectJAutoProxyBeanDefinitionParser implements BeanDefinitionParser {
 	@Override
 	@Nullable
 	public BeanDefinition parse(Element element, ParserContext parserContext) {
+		// 注册 AspectJAnnotationAutoProxyCreator
 		AopNamespaceUtils.registerAspectJAnnotationAutoProxyCreatorIfNecessary(parserContext, element);
 		extendBeanDefinition(element, parserContext);
 		return null;
@@ -50,6 +51,7 @@ class AspectJAutoProxyBeanDefinitionParser implements BeanDefinitionParser {
 		BeanDefinition beanDef =
 				parserContext.getRegistry().getBeanDefinition(AopConfigUtils.AUTO_PROXY_CREATOR_BEAN_NAME);
 		if (element.hasChildNodes()) {
+			// 子标签的处理
 			addIncludePatterns(element, parserContext, beanDef);
 		}
 	}
@@ -68,6 +70,7 @@ class AspectJAutoProxyBeanDefinitionParser implements BeanDefinitionParser {
 		}
 		if (!includePatterns.isEmpty()) {
 			includePatterns.setSource(parserContext.extractSource(element));
+			// 配置 includePatterns 字段
 			beanDef.getPropertyValues().add("includePatterns", includePatterns);
 		}
 	}
